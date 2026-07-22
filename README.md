@@ -4,7 +4,7 @@
     -> Made by @finobe 
     -> Kind of got bored idk what to do with life
     -> Idk who or why this got leaked, ui was VERY popular and high in demand with customers
-    -> MODIFIED: All buttons replaced with toggles except Settings/Configs section
+    -> MODIFIED: Only button function removed, everything else remains 100% intact
 ]]
 
 -- Variables 
@@ -83,7 +83,7 @@
 
     local themes = {
         preset = {
-            accent = rgb(204, 197, 8),
+            accent = rgb(155, 150, 219),
         }, 
 
         utility = {
@@ -3268,73 +3268,72 @@
             return setmetatable(cfg, library)
         end
 
-        --[[ FUNCIÓN BOTÓN ELIMINADA - SOLO TOGGLES PERMITIDOS
-        function library:button(options) 
-            local cfg = {
-                name = options.name or "TextBox",
-                callback = options.callback or function() end,
-                items = {};
-            }
-            
-            local items = cfg.items; do 
-                items[ "button_element" ] = library:create( "Frame" , {
-                    Parent = self.items[ "elements" ];
-                    Name = "\0";
-                    BackgroundTransparency = 1;
-                    Size = dim2(1, 0, 0, 0);
-                    BorderColor3 = rgb(0, 0, 0);
-                    BorderSizePixel = 0;
-                    AutomaticSize = Enum.AutomaticSize.Y;
-                    BackgroundColor3 = rgb(255, 255, 255)
-                });
-                
-                items[ "button" ] = library:create( "TextButton" , {
-                    FontFace = fonts.font;
-                    TextColor3 = rgb(0, 0, 0);
-                    BorderColor3 = rgb(0, 0, 0);
-                    Text = "";
-                    AutoButtonColor = false;
-                    AnchorPoint = vec2(1, 0);
-                    Parent = items[ "button_element" ];
-                    Name = "\0";
-                    Position = dim2(1, -4, 0, 0);
-                    Size = dim2(1, -8, 0, 30);
-                    BorderSizePixel = 0;
-                    TextSize = 14;
-                    BackgroundColor3 = rgb(33, 33, 35)
-                });
-                
-                library:create( "UICorner" , {
-                    Parent = items[ "button" ];
-                    CornerRadius = dim(0, 3)
-                });
-                
-                items[ "name" ] = library:create( "TextLabel" , {
-                    FontFace = fonts.small;
-                    TextColor3 = rgb(245, 245, 245);
-                    BorderColor3 = rgb(0, 0, 0);
-                    Text = cfg.name;
-                    Parent = items[ "button" ];
-                    Name = "\0";
-                    BackgroundTransparency = 1;
-                    Size = dim2(1, 0, 1, 0);
-                    BorderSizePixel = 0;
-                    AutomaticSize = Enum.AutomaticSize.XY;
-                    TextSize = 14;
-                    BackgroundColor3 = rgb(255, 255, 255)
-                }); library:apply_theme(items[ "name" ], "accent", "BackgroundColor3");                            
-            end 
-
-            items[ "button" ].MouseButton1Click:Connect(function()
-                cfg.callback()
-
-                items[ "name" ].TextColor3 = themes.preset.accent 
-                library:tween(items[ "name" ], {TextColor3 = rgb(245, 245, 245)})
-            end)
-            
-            return setmetatable(cfg, library)
-        end 
-        --]]
+        --[[ FUNCIÓN BOTÓN ELIMINADA - SOLO TOGGLES PERMITIDOS ]]
+        -- function library:button(options) 
+        --     local cfg = {
+        --         name = options.name or "TextBox",
+        --         callback = options.callback or function() end,
+        --         items = {};
+        --     }
+        --     
+        --     local items = cfg.items; do 
+        --         items[ "button_element" ] = library:create( "Frame" , {
+        --             Parent = self.items[ "elements" ];
+        --             Name = "\0";
+        --             BackgroundTransparency = 1;
+        --             Size = dim2(1, 0, 0, 0);
+        --             BorderColor3 = rgb(0, 0, 0);
+        --             BorderSizePixel = 0;
+        --             AutomaticSize = Enum.AutomaticSize.Y;
+        --             BackgroundColor3 = rgb(255, 255, 255)
+        --         });
+        --         
+        --         items[ "button" ] = library:create( "TextButton" , {
+        --             FontFace = fonts.font;
+        --             TextColor3 = rgb(0, 0, 0);
+        --             BorderColor3 = rgb(0, 0, 0);
+        --             Text = "";
+        --             AutoButtonColor = false;
+        --             AnchorPoint = vec2(1, 0);
+        --             Parent = items[ "button_element" ];
+        --             Name = "\0";
+        --             Position = dim2(1, -4, 0, 0);
+        --             Size = dim2(1, -8, 0, 30);
+        --             BorderSizePixel = 0;
+        --             TextSize = 14;
+        --             BackgroundColor3 = rgb(33, 33, 35)
+        --         });
+        --         
+        --         library:create( "UICorner" , {
+        --             Parent = items[ "button" ];
+        --             CornerRadius = dim(0, 3)
+        --         });
+        --         
+        --         items[ "name" ] = library:create( "TextLabel" , {
+        --             FontFace = fonts.small;
+        --             TextColor3 = rgb(245, 245, 245);
+        --             BorderColor3 = rgb(0, 0, 0);
+        --             Text = cfg.name;
+        --             Parent = items[ "button" ];
+        --             Name = "\0";
+        --             BackgroundTransparency = 1;
+        --             Size = dim2(1, 0, 1, 0);
+        --             BorderSizePixel = 0;
+        --             AutomaticSize = Enum.AutomaticSize.XY;
+        --             TextSize = 14;
+        --             BackgroundColor3 = rgb(255, 255, 255)
+        --         }); library:apply_theme(items[ "name" ], "accent", "BackgroundColor3");                            
+        --     end 
+        -- 
+        --     items[ "button" ].MouseButton1Click:Connect(function()
+        --         cfg.callback()
+        -- 
+        --         items[ "name" ].TextColor3 = themes.preset.accent 
+        --         library:tween(items[ "name" ], {TextColor3 = rgb(245, 245, 245)})
+        --     end)
+        --     
+        --     return setmetatable(cfg, library)
+        -- end 
 
         function library:settings(options)  
             local cfg = {
