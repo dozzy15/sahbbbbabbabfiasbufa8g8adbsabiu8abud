@@ -1,4 +1,3 @@
-
 --[[
 
     Milenium Library
@@ -271,7 +270,7 @@
         function fag(tbl)
             local Size = 0
             
-            for _ in tbl do
+            for _,_ in pairs(tbl) do
                 Size = Size + 1
             end
         
@@ -403,10 +402,10 @@
         function library:load_config(config_json) 
             local config = http_service:JSONDecode(config_json)
             
-            for _, v in config do 
-                local function_set = library.config_flags[_]
+            for flag_name, v in config do 
+                local function_set = library.config_flags[flag_name]
                 
-                if _ == "config_name_list" then 
+                if flag_name == "config_name_list" then 
                     continue 
                 end
 
@@ -461,8 +460,8 @@
                 open_element.open = false;
             end 
 
-            if new_path ~= open_element then 
-                library.current_open = new_path or nil;
+            if new_path ~= open_element and new_path then 
+                library.current_open = new_path
             end
         end 
 
@@ -522,6 +521,11 @@
                 ZIndexBehavior = Enum.ZIndexBehavior.Sibling;
                 IgnoreGuiInset = true;
             }); 
+
+            library[ "cache" ] = library:create( "Folder" , {
+                Parent = library[ "items" ];
+                Name = "Cache";
+            });
 
             local items = cfg.items; do
                 items[ "main" ] = library:create( "Frame" , {
@@ -712,7 +716,7 @@
                     Name = "\0";
                     TextColor3 = themes.preset.accent;
                     BorderColor3 = rgb(0, 0, 0);
-                    Text = '<font color="rgb(72, 72, 73)">32 days left, </font>' .. cfg.name .. cfg.suffix;
+                    Text = '<font color="rgb(72, 72, 73)">K7, </font>' .. cfg.name .. cfg.suffix;
                     Size = dim2(1, 0, 0, 0);
                     Position = dim2(0, -10, 0.5, -1);
                     AnchorPoint = vec2(0, 0.5);
@@ -1174,7 +1178,7 @@
                 name = properties.name or properties.Name or "section"; 
                 side = properties.side or properties.Side or "left";
                 default = properties.default or properties.Default or false;
-                size = properties.size or properties.Size or self.size or 0.5; 
+                size = properties.size or properties.Size or 0.5; 
                 icon = properties.icon or properties.Icon or "http://www.roblox.com/asset/?id=6022668898";
                 fading_toggle = properties.fading or properties.Fading or false;
                 items = {};
@@ -1579,7 +1583,7 @@
                 cfg.callback(bool)
 
                 if cfg.folding then 
-                    elements.Visible = bool
+                    self.items[ "elements" ].Visible = bool
                 end
 
                 flags[cfg.flag] = bool
@@ -2097,7 +2101,7 @@
                     end
                 end
 
-                items[ "sub_text" ].Text = isTable and concat(selected, ", ") or selected[1] or ""
+                items[ "sub_text" ].Text = isTable and table.concat(selected, ", ") or selected[1] or ""
                 flags[cfg.flag] = isTable and selected or selected[1]
                 
                 cfg.callback(flags[cfg.flag]) 
@@ -2612,7 +2616,7 @@
                         CornerRadius = dim(0, 3)
                     });
                     
-                    items[ "UICorenr" ] = library:create( "UICorner" , { -- fire misstypo (im not fixing this RAWR)
+                    items[ "ui_corner" ] = library:create( "UICorner" , {
                         Parent = items[ "colorpicker_holder" ];
                         Name = "\0";
                         CornerRadius = dim(0, 4)
@@ -3342,11 +3346,6 @@
                     CornerRadius = dim(0, 7)
                 });
                 
-                library:create( "UICorner" , {
-                    Parent = items[ "fade" ];
-                    CornerRadius = dim(0, 7)
-                });
-                
                 items[ "tick" ] = library:create( "ImageButton" , {
                     Image = "rbxassetid://128797200442698";
                     Name = "\0";
@@ -3497,9 +3496,24 @@
             local column = main:column({})
             local section = column:section({name = "Settings", side = "right", size = 1, default = true, icon = "rbxassetid://129380150574313"})
             section:textbox({name = "Config name:", flag = "config_name_text"})
-            section:button({name = "Save", callback = function() writefile(library.directory .. "/configs/" .. flags["config_name_text"] or flags["config_name_list"] .. ".cfg", library:get_config()) library:update_config_list() notifications:create_notification({name = "Configs", info = "Saved config to:\n" .. flags["config_name_list"] or flags["config_name_text"]}) end}) 
-            section:button({name = "Load", callback = function() library:load_config(readfile(library.directory .. "/configs/" .. flags["config_name_list"] .. ".cfg"))  library:update_config_list() notifications:create_notification({name = "Configs", info = "Loaded config:\n" .. flags["config_name_list"]}) end})
-            section:button({name = "Delete", callback = function() delfile(library.directory .. "/configs/" .. flags["config_name_list"] .. ".cfg")  library:update_config_list() notifications:create_notification({name = "Configs", info = "Deleted config:\n" .. flags["config_name_list"]}) end})
+            section:button({name = "Save", callback = function() 
+                local name = flags["config_name_text"] or flags["config_name_list"] or "default"
+                writefile(library.directory .. "/configs/" .. name .. ".cfg", library:get_config()) 
+                library:update_config_list() 
+                notifications:create_notification({name = "Configs", info = "Saved config to:\n" .. name}) 
+            end}) 
+            section:button({name = "Load", callback = function() 
+                local name = flags["config_name_list"] or flags["config_name_text"] or "default"
+                library:load_config(readfile(library.directory .. "/configs/" .. name .. ".cfg"))  
+                library:update_config_list() 
+                notifications:create_notification({name = "Configs", info = "Loaded config:\n" .. name}) 
+            end})
+            section:button({name = "Delete", callback = function() 
+                local name = flags["config_name_list"] or flags["config_name_text"] or "default"
+                delfile(library.directory .. "/configs/" .. name .. ".cfg")  
+                library:update_config_list() 
+                notifications:create_notification({name = "Configs", info = "Deleted config:\n" .. name}) 
+            end})
             section:colorpicker({name = "Menu Accent", callback = function(color, alpha) library:update_theme("accent", color) end, color = themes.preset.accent})
             section:keybind({name = "Menu Bind", callback = function(bool) window.toggle_menu(bool) end, default = true})
         end
