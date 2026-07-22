@@ -1,10 +1,10 @@
-[UIII.txt](https://github.com/user-attachments/files/30282855/UIII.txt)
 --[[
 
     Milenium Library
     -> Made by @finobe 
     -> Kind of got bored idk what to do with life
     -> Idk who or why this got leaked, ui was VERY popular and high in demand with customers
+    -> MODIFIED: All buttons replaced with toggles except Settings/Configs section
 ]]
 
 -- Variables 
@@ -83,7 +83,7 @@
 
     local themes = {
         preset = {
-            accent = rgb(155, 150, 219),
+            accent = rgb(204, 197, 8),
         }, 
 
         utility = {
@@ -732,15 +732,6 @@
             end 
 
             function cfg.toggle_menu(bool) 
-                -- WIP 
-                -- if cfg.tween then 
-                --     cfg.tween:Cancel()
-                -- end 
-
-                -- items[ "main" ].Size = dim2(items[ "main" ].Size.Scale.X, items[ "main" ].Size.Offset.X - 20, items[ "main" ].Size.Scale.Y, items[ "main" ].Size.Offset.Y - 20)
-                -- library:tween(items[ "tab_holder" ], {Size = dim2(1, -196, 1, -81)}, Enum.EasingStyle.Quad, 0.4)
-                -- cfg.tween = 
-                
                 library[ "items" ].Enabled = bool
             end 
                 
@@ -3277,71 +3268,168 @@
             return setmetatable(cfg, library)
         end
 
+        --[[ FUNCIÓN BOTÓN ELIMINADA - SOLO TOGGLES PERMITIDOS
         function library:button(options) 
-    local cfg = {
-        name = options.name or "TextBox",
-        callback = options.callback or function() end,
-        items = {};
-    }
-    
-    local items = cfg.items; do 
-        items[ "button_element" ] = library:create( "Frame" , {
-            Parent = self.items[ "elements" ];
-            Name = "\0";
-            BackgroundTransparency = 1;
-            Size = dim2(1, 0, 0, 0);
-            BorderColor3 = rgb(0, 0, 0);
-            BorderSizePixel = 0;
-            AutomaticSize = Enum.AutomaticSize.Y;
-            BackgroundColor3 = rgb(255, 255, 255)
-        });
-        
-        items[ "button" ] = library:create( "TextButton" , {
-            FontFace = fonts.font;
-            TextColor3 = rgb(0, 0, 0);
-            BorderColor3 = rgb(0, 0, 0);
-            Text = "";
-            AutoButtonColor = false;
-            AnchorPoint = vec2(1, 0);
-            Parent = items[ "button_element" ];
-            Name = "\0";
-            Position = dim2(1, -4, 0, 0);
-            Size = dim2(1, -8, 0, 30);
-            BorderSizePixel = 0;
-            TextSize = 14;
-            BackgroundColor3 = rgb(33, 33, 35)
-        });
-        
-        library:create( "UICorner" , {
-            Parent = items[ "button" ];
-            CornerRadius = dim(0, 3)
-        });
-        
-        items[ "name" ] = library:create( "TextLabel" , {
-            FontFace = fonts.small;
-            TextColor3 = rgb(245, 245, 245);
-            BorderColor3 = rgb(0, 0, 0);
-            Text = cfg.name;
-            Parent = items[ "button" ];
-            Name = "\0";
-            BackgroundTransparency = 1;
-            Size = dim2(1, 0, 1, 0);
-            BorderSizePixel = 0;
-            AutomaticSize = Enum.AutomaticSize.XY;
-            TextSize = 14;
-            BackgroundColor3 = rgb(255, 255, 255)
-        }); library:apply_theme(items[ "name" ], "accent", "BackgroundColor3");                            
-    end 
+            local cfg = {
+                name = options.name or "TextBox",
+                callback = options.callback or function() end,
+                items = {};
+            }
+            
+            local items = cfg.items; do 
+                items[ "button_element" ] = library:create( "Frame" , {
+                    Parent = self.items[ "elements" ];
+                    Name = "\0";
+                    BackgroundTransparency = 1;
+                    Size = dim2(1, 0, 0, 0);
+                    BorderColor3 = rgb(0, 0, 0);
+                    BorderSizePixel = 0;
+                    AutomaticSize = Enum.AutomaticSize.Y;
+                    BackgroundColor3 = rgb(255, 255, 255)
+                });
+                
+                items[ "button" ] = library:create( "TextButton" , {
+                    FontFace = fonts.font;
+                    TextColor3 = rgb(0, 0, 0);
+                    BorderColor3 = rgb(0, 0, 0);
+                    Text = "";
+                    AutoButtonColor = false;
+                    AnchorPoint = vec2(1, 0);
+                    Parent = items[ "button_element" ];
+                    Name = "\0";
+                    Position = dim2(1, -4, 0, 0);
+                    Size = dim2(1, -8, 0, 30);
+                    BorderSizePixel = 0;
+                    TextSize = 14;
+                    BackgroundColor3 = rgb(33, 33, 35)
+                });
+                
+                library:create( "UICorner" , {
+                    Parent = items[ "button" ];
+                    CornerRadius = dim(0, 3)
+                });
+                
+                items[ "name" ] = library:create( "TextLabel" , {
+                    FontFace = fonts.small;
+                    TextColor3 = rgb(245, 245, 245);
+                    BorderColor3 = rgb(0, 0, 0);
+                    Text = cfg.name;
+                    Parent = items[ "button" ];
+                    Name = "\0";
+                    BackgroundTransparency = 1;
+                    Size = dim2(1, 0, 1, 0);
+                    BorderSizePixel = 0;
+                    AutomaticSize = Enum.AutomaticSize.XY;
+                    TextSize = 14;
+                    BackgroundColor3 = rgb(255, 255, 255)
+                }); library:apply_theme(items[ "name" ], "accent", "BackgroundColor3");                            
+            end 
 
-    items[ "button" ].MouseButton1Click:Connect(function()
-        cfg.callback()
+            items[ "button" ].MouseButton1Click:Connect(function()
+                cfg.callback()
 
-        items[ "name" ].TextColor3 = themes.preset.accent 
-        library:tween(items[ "name" ], {TextColor3 = rgb(245, 245, 245)})
-    end)
-    
-    return setmetatable(cfg, library)
-end 
+                items[ "name" ].TextColor3 = themes.preset.accent 
+                library:tween(items[ "name" ], {TextColor3 = rgb(245, 245, 245)})
+            end)
+            
+            return setmetatable(cfg, library)
+        end 
+        --]]
+
+        function library:settings(options)  
+            local cfg = {
+                open = false; 
+                items = {}; 
+                sanity = true; -- made this for my own sanity.
+            }
+
+            local items = cfg.items; do 
+                items[ "outline" ] = library:create( "Frame" , {
+                    Name = "\0";
+                    Visible = true;
+                    Parent = library[ "items" ];
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(0, 0, 0, 0);
+                    ClipsDescendants = true;
+                    BorderSizePixel = 0;
+                    AutomaticSize = Enum.AutomaticSize.Y;
+                    BackgroundColor3 = rgb(25, 25, 29)
+                });
+                
+                items[ "inline" ] = library:create( "Frame" , {
+                    Parent = items[ "outline" ];
+                    Name = "\0";
+                    Position = dim2(0, 1, 0, 1);
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(1, -2, 1, -2);
+                    BorderSizePixel = 0;
+                    BackgroundColor3 = rgb(22, 22, 24)
+                });
+                
+                library:create( "UICorner" , {
+                    Parent = items[ "inline" ];
+                    CornerRadius = dim(0, 7)
+                });
+                
+                items[ "elements" ] = library:create( "Frame" , {
+                    BorderColor3 = rgb(0, 0, 0);
+                    Parent = items[ "inline" ];
+                    Name = "\0";
+                    BackgroundTransparency = 1;
+                    Position = dim2(0, 10, 0, 10);
+                    Size = dim2(1, -20, 0, 0);
+                    BorderSizePixel = 0;
+                    AutomaticSize = Enum.AutomaticSize.Y;
+                    BackgroundColor3 = rgb(255, 255, 255)
+                });
+                
+                library:create( "UIListLayout" , {
+                    Parent = items[ "elements" ];
+                    Padding = dim(0, 10);
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                });
+                
+                library:create( "UIPadding" , {
+                    PaddingBottom = dim(0, 15);
+                    Parent = items[ "elements" ]
+                });
+                
+                library:create( "UICorner" , {
+                    Parent = items[ "outline" ];
+                    CornerRadius = dim(0, 7)
+                });
+                
+                library:create( "UICorner" , {
+                    Parent = items[ "fade" ];
+                    CornerRadius = dim(0, 7)
+                });
+                
+                items[ "tick" ] = library:create( "ImageButton" , {
+                    Image = "rbxassetid://128797200442698";
+                    Name = "\0";
+                    AutoButtonColor = false;
+                    Parent = self.items[ "right_components" ];
+                    BorderColor3 = rgb(0, 0, 0);
+                    Size = dim2(0, 16, 0, 16);
+                    BorderSizePixel = 0;
+                    BackgroundColor3 = rgb(255, 255, 255)
+                });                
+            end 
+
+            function cfg.set_visible(bool)                 
+                library:tween(items[ "outline" ], {Size = dim_offset(bool and 240 or 0, 0)})
+                items[ "outline" ].Position = dim_offset(items[ "tick" ].AbsolutePosition.X, items[ "tick" ].AbsolutePosition.Y + 90)
+                library:close_element(cfg)
+            end
+            
+            items[ "tick" ].MouseButton1Click:Connect(function()
+                cfg.open = not cfg.open
+
+                cfg.set_visible(cfg.open)
+            end)
+
+            return setmetatable(cfg, library)
+        end 
 
         function library:list(properties) 
             local cfg = {
@@ -3466,7 +3554,7 @@ end
             local column = main:column({})
             local section = column:section({name = "Settings", side = "right", size = 1, default = true, icon = "rbxassetid://129380150574313"})
             section:textbox({name = "Config name:", flag = "config_name_text"})
-            section:button({name = "Save", callback = function() writefile(library.directory .. "/configs/" .. flags["config_name_text"] or flags["config_name_list"] .. ".cfg", library:get_config()) library:update_config_list() notifications:create_notification({name = "Configs", info = "Saved config to:\n" .. flags["config_name_list"] or flags["config_name_text"]}) end}) 
+            section:button({name = "Save", callback = function() writefile(library.directory .. "/configs/" .. (flags["config_name_text"] or flags["config_name_list"]) .. ".cfg", library:get_config()) library:update_config_list() notifications:create_notification({name = "Configs", info = "Saved config to:\n" .. (flags["config_name_list"] or flags["config_name_text"])}) end}) 
             section:button({name = "Load", callback = function() library:load_config(readfile(library.directory .. "/configs/" .. flags["config_name_list"] .. ".cfg"))  library:update_config_list() notifications:create_notification({name = "Configs", info = "Loaded config:\n" .. flags["config_name_list"]}) end})
             section:button({name = "Delete", callback = function() delfile(library.directory .. "/configs/" .. flags["config_name_list"] .. ".cfg")  library:update_config_list() notifications:create_notification({name = "Configs", info = "Deleted config:\n" .. flags["config_name_list"]}) end})
             section:colorpicker({name = "Menu Accent", callback = function(color, alpha) library:update_theme("accent", color) end, color = themes.preset.accent})
